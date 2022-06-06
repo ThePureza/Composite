@@ -6,44 +6,44 @@ public class CasterTest {
 
     @Test
     void needReturnSpellBookCaster() {
-        School school1 = new School("Padrões de Criacao");
+        School school1 = new School("Abjuração");
 
-        School school2 = new School("Padrões Estruturais");
-        Spell spell21 = new Spell("Padrão Composite", 2);
+        School school2 = new School("Conjuração");
+        Spell spell21 = new Spell("Invocar Elemental Menor", 15, "1d6 de dano elemental");
         school2.addMagic(spell21);
 
-        School school3 = new School("Padrões Comportamentais");
-        Spell spell31 = new Spell("Padrão Observer", 3);
-        Spell spell32 = new Spell("Padrão State", 4);
+        School school3 = new School("Evocação");
+        Spell spell31 = new Spell("Bola de Fogo", 18, "4d6 de dano de Fogo");
+        Spell spell32 = new Spell("Mísseis Mágicos", 12, "2d4 de dano Mágico");
         school3.addMagic(spell31);
         school3.addMagic(spell32);
 
-        School ementa = new School("Padrões de Projeto");
-        ementa.addMagic(school1);
-        ementa.addMagic(school2);
-        ementa.addMagic(school3);
+        School spellBook = new School("Spell Book");
+        spellBook.addMagic(school1);
+        spellBook.addMagic(school2);
+        spellBook.addMagic(school3);
 
-        Disciplina disciplina = new Disciplina();
-        disciplina.setEmenta(ementa);
+        Caster caster = new Caster();
+        caster.setSpellBook(spellBook);
 
-        assertEquals("School: Padrões de Projeto\n" +
-                "School: Padrões de Criacao\n" +
-                "School: Padrões Estruturais\n" +
-                "Tópico: Padrão Composite - carga horária: 2\n" +
-                "School: Padrões Comportamentais\n" +
-                "Tópico: Padrão Observer - carga horária: 3\n" +
-                "Tópico: Padrão State - carga horária: 4\n", disciplina.getEmenta());
+        assertEquals("School: Spell Book\n" +
+                "School: Abjuração\n" +
+                "School: Conjuração\n" +
+                "Spell: Invocar Elemental Menor - DC: 2 - Damage: 1d6 de dano elemental\n" +
+                "School: Evocação\n" +
+                "Spell: Bola de Fogo - DC: 3 - Damage: 4d6 de dano de Fogo\n" +
+                "Spell: Mísseis Mágicos - DC: 4 - Damage: 2d4 de dano Mágico\n", caster.getSpellBook());
     }
 
     @Test
-    void deveRetornarExecacaoDisciplinaSemEmenta() {
+    void needReturnExceptionCasterWithoutSpellBook() {
         try {
-            Disciplina disciplina = new Disciplina();
-            disciplina.getEmenta();
+            Caster caster = new Caster();
+            caster.getSpellBook();
             fail();
         }
         catch (NullPointerException e) {
-            assertEquals("Disciplina sem ementa", e.getMessage());
+            assertEquals("Caster don't have the spell book", e.getMessage());
         }
     }
 }
